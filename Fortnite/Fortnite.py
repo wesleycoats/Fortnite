@@ -1,12 +1,11 @@
 #!/bin/python3
-#author Wesley Coats
-#suggested site: jumpto.cc/python-new
 
 from time import *
 from random import *
 from turtle import *
 from math import *
 import math
+import time
 
 turtle = Turtle()
 turtle.speed(0)
@@ -14,27 +13,141 @@ turtle.speed(0)
 player1 = input("Enter Player1's name:")
 player2 = input("Enter Player2's name:")
 
-#writes player 1/2 and health bars
+#writes player 1 names and HP
 turtle.penup()
 turtle.goto(-180,180)
 turtle.write(player1)
 turtle.goto(-180,170)
 turtle.color('#E41A32')
 turtle.write('HP')
+
+#write player 2 names and HP
 turtle.color('#000000')
 turtle.goto(150,180)
 turtle.write(player2)
 turtle.goto(150,170)
 turtle.color('#E41A32')
 turtle.write('HP')
-turtle.color('#000000')
+
+#Create HP bars
+a1_Health = 100
+a1_totalDamage = 0
+
+b1_Health = 100
+b1_totalDamage = 0
+
+
+#player1
+turtle.goto(-170,170)
+for i in range(2):
+  turtle.color('#000000')
+  turtle.pendown()
+  turtle.forward(100)
+  turtle.right(90)
+  turtle.forward(10)
+  turtle.right(90)
 turtle.penup()
 
+turtle.goto(-169,169) 
+turtle.begin_fill()
+for i in range(2):
+  turtle.color('#E41A32')
+  turtle.pendown()
+  turtle.forward(98)
+  turtle.right(90)
+  turtle.forward(8)
+  turtle.right(90) 
+turtle.end_fill()  
+turtle.penup()
+
+#updates health bars
+def updateHealthBars(player, damage):
+  global a1_Health
+  global b1_Health
+  
+  global a1_totalDamage
+  global b1_totalDamage
+  
+  #player 1
+  if(player == 'player1'):
+    a1_totalDamage += damage
+    a1_Health = a1_Health - damage
+    
+    #change = damage
+    #98    = 100
+    change = (98*a1_totalDamage) / 100
+    
+    turtle.goto(-71, 169)
+    turtle.begin_fill()
+    for i in range(2):
+      turtle.color('#000000')
+      turtle.pendown()
+      turtle.backward(change)
+      turtle.right(90)
+      turtle.forward(8)
+      turtle.right(90) 
+    turtle.end_fill()  
+    turtle.penup()
+  
+    print(player1 + "'s remaining health is " + str(a1_Health))
+    turtle.color(ERROR)
+    turtle.goto(0,0)
+  
+  #player 2
+  elif(player == 'player2'):
+    b1_totalDamage += damage
+    b1_Health = b1_Health - damage
+    
+    #change = damage
+    #98    = 100
+    change = (98*b1_totalDamage) / 100
+    
+    turtle.goto(41, 169)
+    turtle.begin_fill()
+    for i in range(2):
+      turtle.color('#000000')
+      turtle.pendown()
+      turtle.forward(change)
+      turtle.right(90)
+      turtle.forward(8)
+      turtle.right(90) 
+    turtle.end_fill()  
+    turtle.penup()
+  
+    print(player2 + "'s remaining health is " + str(b1_Health))
+    turtle.color(ERROR)
+    turtle.goto(0,0)
+
+#player2
+turtle.goto(140,170)
+for i in range(2):
+  turtle.color('#000000')
+  turtle.pendown()
+  turtle.backward(100)
+  turtle.left(90)
+  turtle.backward(10)
+  turtle.left(90)
+turtle.penup()
+
+turtle.goto(139,169) 
+turtle.begin_fill()
+for i in range(2):
+  turtle.color('#E41A32')
+  turtle.pendown()
+  turtle.backward(98)
+  turtle.left(90)
+  turtle.backward(8)
+  turtle.left(90) 
+turtle.end_fill()  
+turtle.penup()
+
+
+
 #draws battlefield
+turtle.color('#000000')
 turtle.goto(-150,150)
 turtle.pendown()
 for i in range(4):
-  turtle.color('#000000')
   turtle.forward(300)
   turtle.right(90)
 turtle.penup()
@@ -68,38 +181,23 @@ colors = [red,lightgreen,darkgreen,yellow,lightblue,darkblue,purple,ERROR]
 print('Color options: red, lightgreen, darkgreen, yellow, lightblue, darkblue, purple')
 
 #ask for player colors
-a5 = input("Player1's color: ")
-b5 = input("player2's color: ")
+a1_Color = input("Player1's color: ")
+b1_Color = input("player2's color: ")
 
 #create players
 a1 = Turtle()
-a1.color(a5)
+a1.color(a1_Color)
 a1.speed(0)
 a1.shape('square')
 a1.penup()
 b1 = Turtle()
-b1.color(b5)
+b1.color(b1_Color)
 b1.speed(0)
 b1.shape('square')
 b1.penup()
 a1.goto(-135,0)
 b1.goto(135,0)
 b1.right(180)
-
-#Create HP bars
-a1_Health = 100
-b1_Health = 100
-
-turtle.goto(-170,170)
-for i in range(2):
-  turtle.color('#000000')
-  turtle.pendown()
-  turtle.forward(100)
-  turtle.right(90)
-  turtle.forward(10)
-  turtle.right(90)
-
-turtle.color('#E41A32')
 
 #distance between 2 players
 distance = math.sqrt((a1.xcor()-b1.xcor())**2 + (a1.ycor()-b1.ycor())**2)
